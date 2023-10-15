@@ -573,7 +573,6 @@ func main() {
 // buffer, or a simple []byte.
 
 // 2. Interfaces Should Have No Knowledge of Satisfying Types
-
 // An interface should define what is necesary for other types to classify as a member of that interfafe. They
 // shouldn't be away of any types that happen to satisfy the interface at design time.
 
