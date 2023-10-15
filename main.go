@@ -543,3 +543,57 @@ func main() {
 	})
 	test(invalid{})
 }
+
+//// 23:54
+
+//// Clean Interfaces
+
+// Writing clean interfaces is hard. Frankly, anytime you're dealing with abstractions in code, the simple can
+// become complex very quickly if you're not careful. Let's go over some rules of thumb for keeping interfaces
+// clean.
+
+// 1. Keep Interfaces Small
+
+// If there is only one piece of advice that you take away from this article, make it this: keep interfaces small!
+// Interfaces are meant to define the minimal behavior necessary to accurately represent an idea or concept.
+
+// Here is an example fro mthe stanard HTTP package of a larger interface that's a good example of defining
+// minimal behavior:
+
+// type File interface {
+// 	io.Closer
+// 	io.Reader
+// 	io.Seeker
+// 	Readdir(count int) ([]os.FileInfo, error)
+// 	Stat() (os.FileInfo, error)
+// }
+
+// Any type that satisfies the interface's behaviors can be considered by the HTTP pacakge as a File. This is
+// convenient because the HTTP package doesn't need to knwo if it's dealing with a file on disk, a network
+// buffer, or a simple []byte.
+
+// 2. Interfaces Should Have No Knowledge of Satisfying Types
+
+// An interface should define what is necesary for other types to classify as a member of that interfafe. They
+// shouldn't be away of any types that happen to satisfy the interface at design time.
+
+// // Bad example:
+// type car interface {
+// 	Color() string
+// 	Speed() int
+// 	IsFiretruct() bool
+// }
+// // Good example:
+// type firetruck interface {
+// 	car
+// 	HoseLength() int
+// }
+
+// 3. Interfaces Are Not Classes
+// * Interfaces are not classes, they are slimmer.
+// * Interfaces don't have constructors or deconstructors that require that data is created or destroyed.
+// * Interfaces aren't hierarchical by nature, though there is syntactic sugar to create interfaces that happen
+// to be supersets of other interfaces.
+// * Interfaces define function signatures, but not underlying behavior. Making an interface often won't
+// DRY up your code in regards to struct methods. For example, if five types satisfy the fmt.Stringer
+// interface, they all need their own version of the String() function.
